@@ -1,2 +1,2 @@
-# Discord_Talking_Bot
-Discord bot that chats and talks
+# Discord_Chatting_Bot
+Discord bot that chats in Korean
