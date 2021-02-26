@@ -1,6 +1,6 @@
 # Discord_Chatting_Bot
 
-Discord bot that chats in Korean
+Discord chat bot
 
 ## Installation:
 
