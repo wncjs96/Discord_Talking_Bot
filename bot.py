@@ -11,6 +11,9 @@ from dotenv import load_dotenv
 import urllib
 import json
 
+# personal files
+from visualizer import getImg, visualizeImg
+
 load_dotenv()
 #env values
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -30,6 +33,7 @@ state = 0
 regex = re.compile('(.)*루다(.)*')
 regex2 = re.compile('(.)*꺼져(.)*')
 
+
 @client.event
 async def on_ready():
 	print(f'{client.user} has connected to Discord!')
@@ -43,14 +47,14 @@ async def on_ready():
 	)
 	
 	members = '\n - '.join([member.name for member in guild.members])
-	print(f'Guild Members:\n - {members}')
-	print(guild.members)
+	#print(f'Guild Members:\n - {members}')
+	#print(guild.members)
 
 @client.event
 async def on_message(message):
 	global state
-	print('message = ' + message.content)
-	print('state = ' + str(state))
+	#print('message = ' + message.content)
+	#print('state = ' + str(state))
 	if message.author == client.user:
 		return
 	
@@ -74,9 +78,19 @@ async def on_message(message):
 	]
 	#response = random.choice(wakeup_quotes)
 	#await message.channel.send(response)
-	print(regex.match(message.content))
+	#print(regex.match(message.content))
 	# 이루다 is off
-	if (state == 0):
+	if message.content.startswith('!vis'):
+		# get second arg
+		arg = message.content.split(' ')[1]	
+		img = getImg(arg)
+		arr = visualizeImg(img)
+		joined_string = "\n".join(arr)
+		await message.channel.send(joined_string)
+		#for i in arr:
+		#	await message.channel.send(i)
+		
+	elif (state == 0):
 		if(regex.match(message.content)):
 			state = 1
 			print('message received')
@@ -95,7 +109,17 @@ async def on_message(message):
 			response = requests.get(url, headers=headers)
 			
 			res = json.loads(response.text)
+			
+			print(res)
+			print(len(res['response']['replies']))
+			
+			#choice = 0
+			choice = len(res['response']['replies'])-1
 			await message.channel.send(res['response']['replies'][0]['reply'])
+			if (choice != 0):
+				await message.channel.send(res['response']['replies'][choice]['reply'])
+		
+
 	#		# instead of having it as dictionary, text is handled manually.. for emoji?
 	#		count = 1
 	#		temp = ''
