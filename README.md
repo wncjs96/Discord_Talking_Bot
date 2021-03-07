@@ -11,6 +11,7 @@ This project recommends Python 3.7 or higher.
 dotenv: pip install -U python-dotenv
 Google-Images-Search: pip install Google-Images-Search
 pynput: pip install pynput
+BeautifulSoup: pip install beautifulsoup4
 
 ## Usage:
 
